@@ -1,0 +1,3 @@
+# security/ir.model.access.csv
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_albaran_print_hello_wizard,access_albaran_print_hello_wizard,model_albaran_print_hello_wizard,base.group_user,1,1,1,0

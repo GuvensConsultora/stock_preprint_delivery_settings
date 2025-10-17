@@ -1,0 +1,27 @@
+# hooks.py  (crea secuencias de impresión en tipos OUT/INT al instalar)
+# -*- coding: utf-8 -*-
+from odoo import api, SUPERUSER_ID
+
+def post_init_set_print_sequences_on_types(cr, registry):
+    """En instalación: para cada tipo OUT/INT con warehouse->operating_unit
+    y sin print_sequence_id, generar la secuencia de impresión usando el método
+    existente _ensure_print_sequence_with_ou()."""
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    PType = env["stock.picking.type"]
+
+    # Traer tipos de operación de Salida e Interno de cualquier compañía
+    ptypes = PType.search([("code", "in", ("outgoing", "internal"))])
+
+    # Filtrar solo los que tengan almacén con UO y NO tengan secuencia de impresión
+    ptypes_to_create = ptypes.filtered(
+        lambda t: not t.print_sequence_id
+        and t.warehouse_id
+        and t.warehouse_id.operating_unit_id
+    )
+
+    if not ptypes_to_create:
+        return
+
+    # Reutilizamos la lógica ya implementada en el modelo
+    # (_ensure_print_sequence_with_ou debe existir en StockPickingType)
+    ptypes_to_create._ensure_print_sequence_with_ou()

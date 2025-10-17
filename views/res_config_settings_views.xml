@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="res_config_settings_view_form_preprinted" model="ir.ui.view">
+      <field name="name">res.config.settings.view.form.preprinted</field>
+      <field name="model">res.config.settings</field>
+      <!-- en Odoo 17 este suele existir; si no, cambiá por stock.res_config_settings_view_form_stock -->
+      <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//block[@name='operations_setting_container']" position="after">
+          <div class="app_settings_block">
+            <block title="Albaranes preimpresos" name="preprinted_delivery_block">
+
+              <!-- OUT -->
+              <setting id="preprint_lines_out_setting"
+                       help="Cantidad de renglones en remitos de salida.">
+		<label for="preprint_lines_out"/>
+		<div class="content-group">
+		  <!-- campo corto, estilo igual a 'Días para la compra' -->
+		  <field name="preprint_lines_out"
+			 class="o_light_label w-auto"
+			 style="width: 60px;"
+			 nolabel="1"/>
+		  <span class="o_light_label ms-2">líneas</span>
+		</div>
+              </setting>
+
+              <!-- INT -->
+              <setting id="preprint_lines_int_setting"
+                       help="Cantidad de renglones en remitos internos .">
+		<label for="preprint_lines_int"/>
+		<div class="content-group">
+		  <field name="preprint_lines_int"
+			 class="o_light_label w-auto"
+			 style="width: 60px;"
+			 nolabel="1"/>
+		  <span class="o_light_label ms-2">líneas</span>
+		</div>
+              </setting>
+            </block>
+	    </div>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

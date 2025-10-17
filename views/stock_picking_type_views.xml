@@ -1,0 +1,14 @@
+<!-- views/stock_picking_type_views.xml -->
+<odoo>
+  <record id="view_stock_picking_type_form_print_seq" model="ir.ui.view">
+    <field name="name">stock.picking.type.form.print.sequence</field>
+    <field name="model">stock.picking.type</field>
+    <field name="inherit_id" ref="stock.view_picking_type_form"/>  <!-- vista estándar -->
+    <field name="arch" type="xml">
+      <!-- insertamos el nuevo campo justo después de sequence_id -->
+      <xpath expr="//field[@name='sequence_id']" position="after">
+        <field name="print_sequence_id"/>  <!-- Secuencia de impresión -->
+      </xpath>
+    </field>
+  </record>
+</odoo>
