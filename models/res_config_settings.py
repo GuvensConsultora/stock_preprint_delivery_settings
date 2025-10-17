@@ -84,6 +84,11 @@ class AlbaranPrintHelloWizard(models.TransientModel):
                folio = p.write({'print_folio': seq_id.number_next_actual})  # guarda el número formateado
                actualiza = seq_id.write({'number_next_actual': (seq_id.number_next_actual + seq_id.number_increment)})
 
+            # 3) imprimir
+            if p.picking_type_code == 'outgoing':
+                return self.env.ref('stock.action_report_delivery').report_action(pickings_to_print.ids)
+            else:
+                return self.env.ref('stock.action_report_picking').report_action(pickings_to_print.ids)
 
 
             
