@@ -74,6 +74,19 @@ class AlbaranPrintHelloWizard(models.TransientModel):
         total = len(p.move_ids.ids)
         if total <= lpd:
             ###### NADA QUE SEPARAR SOLO SE LE VA  A ASIGNAR EL VALOR DE LA SEQ DE IMPRESIÓN. Y MANDAR A IMPRESIÓN
+            if not p.print_sequence_id:
+                p.write({'print_sequence_id': (p.picking_type_id.print_sequence_id or False)})
+            if not p.print_sequence_id:
+                raise UserError(f"Sin secuencia de impresión en {p.display_name}")
+
+            if not p.print_folio:
+               seq_id = p.print_sequence_id
+               folio = p.write({'print_folio': seq_id.number_next_actual})  # guarda el número formateado
+               actualiza = seq_id.write({'number_next_actual': (seq_id.number_next_actual + seq_id.number_increment)})
+
+
+
+            
             return {
             "type": "ir.actions.client",
                 "tag": "display_notification",
