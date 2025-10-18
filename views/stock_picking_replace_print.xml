@@ -9,7 +9,7 @@
         <button name="action_print_intercept" string="Imprimiiir"
 		      type="object"
 		      class="btn-primary"
-		      invisible="[('state','!=','done')]"/>
+		      />
       </xpath>
       <xpath expr="//h1" position="after">
         <group string="Impresión">
