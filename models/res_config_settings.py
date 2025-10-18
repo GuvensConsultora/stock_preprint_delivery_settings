@@ -86,9 +86,9 @@ class AlbaranPrintHelloWizard(models.TransientModel):
 
             # 3) imprimir
             if p.picking_type_code == 'outgoing':
-                return self.env.ref('stock.action_report_delivery').report_action(pickings_to_print.ids)
+                return self.env.ref('stock.action_report_delivery').report_action(p.ids)
             else:
-                return self.env.ref('stock.action_report_picking').report_action(pickings_to_print.ids)
+                return self.env.ref('stock.action_report_picking').report_action(p.ids)
 
 
             
