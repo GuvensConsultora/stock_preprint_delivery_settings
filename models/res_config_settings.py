@@ -230,7 +230,7 @@ class StockPicking(models.Model):
         })
 
         # abrir ese registro
-        view = self.env.ref("stock_preprinted_delivery_settings.view_albaran_print_hello_wizard")
+        view = self.env.ref("stock_preprint_delivery_settings.view_albaran_print_hello_wizard")
         return {
             "type": "ir.actions.act_window",
             "name": "Imprimir",

@@ -13,6 +13,7 @@
         "views/res_config_settings_views.xml",
         "views/hello_wizard_views.xml",
         "views/stock_picking_replace_print.xml",
+        "views/report_delivery_folio.xml",
     ],
     "post_init_hook": "post_init_set_print_sequences_on_types",     # Función que voy a llamar
     "assets": {},
