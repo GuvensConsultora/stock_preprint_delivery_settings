@@ -85,7 +85,7 @@ class AlbaranPrintHelloWizard(models.TransientModel):
                actualiza = seq_id.write({'number_next_actual': (seq_id.number_next_actual + seq_id.number_increment)})
 
             # 3) imprimir
-            if p.picking_type_code == 'outgoing':
+            if p.picking_type_code == 'outgoing' and p.state == 'done':
                 return self.env.ref('stock.action_report_delivery').report_action(p.ids)
             else:
                 return self.env.ref('stock.action_report_picking').report_action(p.ids)
@@ -173,72 +173,6 @@ class AlbaranPrintHelloWizard(models.TransientModel):
         
 
 
-
-
-
-#############################################################
-
-#    def action_confirm_preprint(self):
-
-        # """Parte el albarán en bloques de 'lines_per_doc' y asigna folios de impresión."""
-        # self.ensure_one()
-        # p = self.picking_id
-        # lpd = max(self.lines_per_doc or 1, 1)                      # evita división por cero       
-        # # --- Secuencia de impresión y campos destino en stock.picking ---
-        # seq = p.picking_type_id.print_sequence_id                  # ir.sequence definida en el tipo
-        # has_seq_field = 'print_sequence_id' in p._fields           # M2O a ir.sequence
-        # has_folio_field = 'print_folio' in p._fields               # Char con el folio consumido
-        # # raise UserError(f"Picking: {p.id}, Linea por documento {lpd} \n Secuencia {seq}")
-        # # --- Garantiza que el picking original tenga seteada la secuencia a usar ---
-        # if seq and has_seq_field and (not p.print_sequence_id or p.print_sequence_id.id != seq.id):
-        #     p.write({'print_sequence_id': seq.id})
-
-        # # --- Partición de movimientos en lotes (primer lote queda en el original) ---
-        # moves = _valid_moves(p)
-        # total = len(moves)
-        # new_picks = self.env['stock.picking']
-        # if total > lpd:
-        #     batches = [moves[i:i + lpd] for i in range(0, total, lpd)]
-        #     for batch in batches[1:]:
-        #         # copia del picking SIN líneas para alojar el lote
-        #         vals_copy = {"name": False, "move_ids": []}
-        #         if seq and has_seq_field:
-        #             vals_copy["print_sequence_id"] = seq.id        # misma secuencia en el nuevo
-        #         np = p.copy(vals_copy)
-        #         batch.write({"picking_id": np.id})                 # reasigna líneas al nuevo picking
-        #         new_picks |= np
-
-        # # --- Consume y asigna folios (formateados) a todos los pickings resultantes ---
-        # if seq and has_folio_field:
-        #     seq_env = self.env['ir.sequence'].with_context(        # respeta rangos por fecha
-        #         ir_sequence_date=fields.Date.context_today(self)
-        #     )
-        #     for pk in (p | new_picks):
-        #         if not pk.print_folio:                             # no duplicar consumo
-        #             pk.write({'print_folio': seq_env.next_by_id(seq.id)})
-
-        # # --- Feedback visual ---
-        # total_docs = 1 + len(new_picks)
-        # return {
-        #     "type": "ir.actions.client",
-        #     "tag": "display_notification",
-        #     "params": {
-        #         "title": "Split y folio",
-        #         "message": f"{total_docs} albarán(es) generados y foliados.",
-        #         "type": "success",
-        #     },
-        # }
-
-##########################################
-
-
-        # self.ensure_one()
-        # return {
-        # "type": "ir.actions.client",
-        # "tag": "display_notification",
-        # "params": {"title": "OK", "message": "Confirmado", "type": "success"},
-        # "context": {"default_picking_id": self.id}, 
-        # }
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
